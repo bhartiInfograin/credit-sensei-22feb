@@ -11,6 +11,7 @@ import Premium from "../Authtication/Signup/Premium";
 import ActivateAc from '../Authtication/Signup/ActivateAc';
 import SecurityQuestin from '../Authtication/Signup/SecurityQuestin';
 import PaymentDetails from '../Authtication/Signup/PaymentDetails';
+import Membership from '../Authtication/Signup/Membership';
 
 
 
@@ -31,6 +32,7 @@ export default function Auth() {
                 <Route path="/activateac" element={<ActivateAc/>}></Route>
                 <Route path="/securityquestion" element={<SecurityQuestin/>}></Route>
                 <Route path="/paymentdetails" element={<PaymentDetails/>}></Route>
+                <Route path="/membership" element={<Membership/>}></Route>
                 
             </Routes>
         </>

@@ -27,14 +27,12 @@ const PaymentDetails = () => {
     const [zipAddress, setZipAddress] = useState("")
     const [city, setCity] = useState("");
     const [stateAddress, setStateAddress] = useState("");
-    const [planType, setPlanType] = useState("");
-    const [planTypecheck, setPlanTypecheck] = useState("false")
+  
 
 
 
-    console.log("planTypeddddd",planType)
 
-//********************** year dropdown *************************//
+    //********************** year dropdown *************************//
     let minOffset = 0, maxOffset = 20;
     let thisYear = (new Date()).getFullYear();
 
@@ -46,7 +44,7 @@ const PaymentDetails = () => {
     const yearList = allYears.map((x) => { return (<option key={x}>{x}</option>) });
 
 
-//********************** Month dropdown *************************//
+    //********************** Month dropdown *************************//
     let allMonth = []
     let months = ["January(01)",
         "February(02)",
@@ -67,13 +65,13 @@ const PaymentDetails = () => {
 
     const monthlist = allMonth.map((x, i) => {
         return (
-            <option key={x} value={i+1}>
+            <option key={x} value={i + 1}>
                 {x}
             </option>)
     });
 
 
-//********************** Creditcard validation api *************************//
+    //********************** Creditcard validation api *************************//
     useEffect(() => {
         if (cardNumber.length === 16) {
 
@@ -90,7 +88,7 @@ const PaymentDetails = () => {
 
     }, [cardNumber])
 
-//********************** Get browser IP Address *************************//
+    //********************** Get browser IP Address *************************//
     useEffect(() => {
         const getClientIp = async () => {
             await publicIp.v4({ fallbackUrls: ["https://ifconfig.co/ip"] })
@@ -103,7 +101,7 @@ const PaymentDetails = () => {
     }, [])
 
 
-//********************** Get check value on billing address *************************//
+    //********************** Get check value on billing address *************************//
     useEffect(() => {
         var t = document.getElementById("billingAddress").checked
         setBillingAddress(t)
@@ -112,19 +110,22 @@ const PaymentDetails = () => {
     const handlecheck = () => {
         var f = document.getElementById("billingAddress").checked
         setBillingAddress(f)
-
     }
 
-//********************** Get planType *************************//
+  
 
-
-
-//********************** function for credit_card api  *************************//
+    //********************** function for credit_card api  *************************//
     const submitHandler = () => {
 
+        var checkplanType
+        let premium = document.getElementById('checkplanType').checked;
+        if (premium === true) {
+            checkplanType = form_data.planType
+        } else {
+            checkplanType = "BASIC"
+        }
+       console.log("checkplanType",checkplanType)
         var termcheck = document.getElementById("term_condition").checked
-        console.log("termcheck", termcheck)
-
         if (termcheck === true) {
 
             if (billingAddress === true) {
@@ -140,14 +141,14 @@ const PaymentDetails = () => {
                     customerToken: form_data.customerToken,
                     "creditCard.name": userName,
                     "creditCard.address": street1,
-                    "creditCard.state":state1,
-                    "creditCard.city":city1,
+                    "creditCard.state": state1,
+                    "creditCard.city": city1,
                     "creditCard.zip": zip1,
                     "creditCard.token": creditCardToken.creditCardToken,
-                    "creditCard.expirationMonth": month.padStart(2,0),
+                    "creditCard.expirationMonth": month.padStart(2, 0),
                     "creditCard.expirationYear": year,
                     "creditCard.cvv": cvv,
-                    planType: form_data.planType,
+                    planType: checkplanType,
                     "confirmTermsBrowserIpAddress": ipAddress,
                     isConfirmedTerms: true,
                 }
@@ -168,20 +169,21 @@ const PaymentDetails = () => {
 
             if (billingAddress === false) {
 
+
                 var article = {
                     clientKey: form_data.clientKey,
                     trackingToken: form_data.trackingToken,
                     customerToken: form_data.trackingToken,
                     "creditCard.name": userName,
                     "creditCard.address": steetAddress,
-                    "creditCard.state":stateAddress,
-                    "creditCard.city":city,
+                    "creditCard.state": stateAddress,
+                    "creditCard.city": city,
                     "creditCard.zip": zipAddress,
                     "creditCard.token": creditCardToken.creditCardToken,
-                    "creditCard.expirationMonth": month.padStart(2,0),
+                    "creditCard.expirationMonth": month.padStart(2, 0),
                     "creditCard.expirationYear": year,
                     "creditCard.cvv": cvv,
-                    planType: form_data.planType,
+                    planType: checkplanType,
                     "confirmTermsBrowserIpAddress": ipAddress,
                     isConfirmedTerms: true,
                 }
@@ -201,7 +203,7 @@ const PaymentDetails = () => {
                         console.log("errordfdf", error.responseJSON.errors[0].code);
                     }
                 });
-            } 
+            }
 
         } else {
             return alert("accept term and condition")
@@ -395,11 +397,11 @@ const PaymentDetails = () => {
                                     }
                                     <div className="check-para">
                                         <input
-                                         id="checkplanType"
-                                         type="checkbox"
-                                        
+                                            id="checkplanType"
+                                            type="checkbox"
+                                            checked='false'
 
-                                          /><label>Premium Membership with UNLIMITED Credit Reports,Scores & Actions</label>
+                                        /><label>Premium Membership with UNLIMITED Credit Reports,Scores & Actions</label>
                                     </div>
                                     <div className="check-para">
                                         <input type="checkbox" id="term_condition" /><label>I have read, agree to and accept all the terms, conditions and rights of my Membership</label>
